@@ -1,39 +1,41 @@
 import { connect } from "react-redux";
 import { AppState } from "src/store";
-import { toggleTaskStatus } from "src/store/tasks/actions";
+import { toggleTaskStatus, removeTask } from "src/store/tasks/actions";
 import { Dispatch, AnyAction } from "redux";
 import { VisibilityFilter, Task } from "src/store/tasks/types";
 import { TaskItem } from "src/components/Task";
 import * as React from "react";
 
-export interface OwnProps {
+interface StateProps {
   tasks: Task[];
 }
-
-interface StateProps {
-  propFromReduxStore: string;
-}
-
 interface DispatchProps {
   toggleTask: (id: number) => void;
+  deleteTask: (id: number) => void;
 }
 
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = StateProps & DispatchProps;
 
 export const TaskList: React.FC<Props> = props => {
-  const { tasks, toggleTask } = props;
-
+  const { tasks, toggleTask, deleteTask } = props;
 
   return (
-    <ul>
-      {tasks.map(task => (
-        <TaskItem key={task.id} {...task} onClick={toggleTask} />
-      ))}
-    </ul>
+    <div className="task-list">
+      <ul>
+        {tasks.map(task => (
+          <TaskItem
+            key={task.id}
+            {...task}
+            onClick={toggleTask}
+            removeTask={deleteTask}
+          />
+        ))}
+      </ul>
+    </div>
   );
 };
 
-const getVisibleTasks = (tasks: Task[], filter: VisibilityFilter) => {
+const getVisibleTasks = (tasks: Task[], filter: VisibilityFilter): Task[] => {
   switch (filter) {
     case VisibilityFilter.SHOW_ALL:
       return tasks;
@@ -45,7 +47,7 @@ const getVisibleTasks = (tasks: Task[], filter: VisibilityFilter) => {
       throw new Error("Unknown filter: " + filter);
   }
 };
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   tasks: getVisibleTasks(
     state.tasksState.tasks,
     state.tasksState.visibilityFilter
@@ -53,7 +55,8 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>): DispatchProps => ({
-  toggleTask: id => dispatch(toggleTaskStatus(id))
+  toggleTask: id => dispatch(toggleTaskStatus(id)),
+  deleteTask: id => dispatch(removeTask(id))
 });
 
 export default connect(

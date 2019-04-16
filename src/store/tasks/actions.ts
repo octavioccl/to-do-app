@@ -30,7 +30,7 @@ export const removeTask=(id: number): Action<number> => {
 
 export const changeFilter = (filter: VisibilityFilter): Action<VisibilityFilter> => {
     return ({
-        type: ActionType.ADD_TASK,
+        type: ActionType.CHANGE_FILTER,
         payload: filter
     });
 }

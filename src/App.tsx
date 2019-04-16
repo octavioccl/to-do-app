@@ -4,6 +4,7 @@ import "./App.css";
 import logo from "./logo.svg";
 import AddTask from './containers/AddTask';
 import Filters from './components/Filters';
+import  TaskList from './containers/TasksList';
 
 class App extends React.Component {
   public render() {
@@ -15,8 +16,8 @@ class App extends React.Component {
         </header>
 
         <AddTask/>
+        <TaskList/>
         <Filters/>
-        <input type="text" className="textInput" />
 
         <footer className="footer" />
       </div>

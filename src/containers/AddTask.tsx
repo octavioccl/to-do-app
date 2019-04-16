@@ -23,12 +23,12 @@ import * as React from 'react';
       }
 
     return (
-        <div>
+        <div className="add-task">
         <form
           onSubmit={submit}
         >
           <input ref={node => (input = node)} />
-          <button className="btn" type="submit">+</button>
+          <button type="submit">+</button>
         </form>
       </div>
     );
