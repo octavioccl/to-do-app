@@ -15,9 +15,7 @@ const reducer: Reducer<TaskState> = (state = initialState, action: Action<any>) 
             return { ...state, tasks: [...state.tasks, { id: nextTaskId++, title: action.payload, completed: false }] }
         }
         case ActionType.TOGGLE_TASK: {
-            const newTasks = [...state.tasks];
-            newTasks[action.payload].completed = !newTasks[action.payload].completed;
-            return { ...state, tasks: newTasks }
+            return { ...state, tasks: state.tasks.map(e=> e.id===action.payload? {...e, completed: !e.completed}:e) }
         }
         case ActionType.EDIT_TASK: {
             return {
